@@ -19,7 +19,19 @@ export class App extends Component {
     ],
     filter: '',
   };
-
+  componentDidMount() {
+    const data = localStorage.getItem('contacts');
+    if (data) {
+      this.setState({ contacts: JSON.parse(data) });
+    } else {
+      console.log('dasd');
+    }
+  }
+  componentDidUpdate(_, prevState) {
+    if (prevState.contacts.length !== this.state.contacts.length) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
   createList = ({ name, number }) => {
     const isRepeat = this.state.contacts.find(el => el.name === name);
     if (isRepeat) {
